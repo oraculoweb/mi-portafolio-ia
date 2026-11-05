@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6fa">
+  <title>Mi Portafolio IA</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Mi Portafolio IA, inicio"><span class="brand-icon">✳</span> Mi Portafolio <b>IA</b></a>
+    <span class="privacy"><span class="lock">●</span> Todo se queda en tu dispositivo</span>
+  </header>
+
+  <main class="layout">
+    <section class="editor" aria-labelledby="page-title">
+      <div class="intro">
+        <div class="eyebrow">TU CREATIVIDAD, EN UNA TARJETA</div>
+        <h1 id="page-title">Tu arte merece<br>ser compartido.</h1>
+        <p>Convierte una imagen creada con IA en una tarjeta lista para tus redes.</p>
+      </div>
+
+      <div class="steps" aria-label="Pasos para crear tu tarjeta">
+        <span class="step active"><i>1</i> Imagen</span><span class="step-line"></span>
+        <span class="step active"><i>2</i> Detalles</span><span class="step-line"></span>
+        <span class="step active"><i>3</i> Estilo</span><span class="step-line"></span>
+        <span class="step active"><i>4</i> Formato</span>
+      </div>
+
+      <form id="cardForm">
+        <section class="form-section">
+          <div class="section-heading"><span class="section-number">01</span><div><h2>Tu imagen</h2><p>Elige la imagen que creaste con IA.</p></div></div>
+          <label class="dropzone" id="dropzone" for="imageInput">
+            <input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <span class="upload-icon" aria-hidden="true">↑</span>
+            <span class="upload-title" id="uploadTitle">Arrastra tu imagen aquí</span>
+            <span class="upload-subtitle" id="uploadSubtitle">o <span>búscala en tu dispositivo</span></span>
+            <span class="file-types">JPG · PNG · WEBP</span>
+          </label>
+          <p class="field-error" id="imageError" role="alert"></p>
+        </section>
+
+        <section class="form-section">
+          <div class="section-heading"><span class="section-number">02</span><div><h2>Cuenta cómo la creaste</h2><p>Estos datos aparecerán en tu tarjeta.</p></div></div>
+          <label class="field-label" for="titleInput">Título de la obra</label>
+          <input id="titleInput" class="text-input" type="text" maxlength="80" placeholder="Ej. Jardín de otro mundo">
+          <label class="field-label" for="promptInput">Prompt completo</label>
+          <textarea id="promptInput" class="text-input" rows="4" maxlength="1200" placeholder="Pega aquí el prompt que usaste para crear la imagen..."></textarea>
+          <div class="field-row">
+            <div><label class="field-label" for="toolInput">Herramienta</label><select id="toolInput" class="text-input"><option>ChatGPT</option><option>Gemini</option><option>Midjourney</option><option>Kling</option><option>Otra</option></select></div>
+            <div><label class="field-label" for="ratioInput">Ratio original</label><input id="ratioInput" class="text-input" type="text" maxlength="20" placeholder="Ej. 16:9"></div>
+          </div>
+          <label class="field-label">Nivel de uso de IA</label>
+          <div class="choice-group" role="group" aria-label="Nivel de uso de IA">
+            <button type="button" class="choice" data-level="Bajo">Bajo</button><button type="button" class="choice selected" data-level="Medio">Medio</button><button type="button" class="choice" data-level="Alto">Alto</button>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="section-heading"><span class="section-number">03</span><div><h2>Elige tu estilo</h2><p>Selecciona una plantilla y un color de acento.</p></div></div>
+          <div class="theme-options" role="group" aria-label="Plantilla visual">
+            <button type="button" class="theme-card selected" data-theme="dark"><span class="theme-swatch swatch-dark"><i></i><i></i></span><span>Oscura</span></button>
+            <button type="button" class="theme-card" data-theme="light"><span class="theme-swatch swatch-light"><i></i><i></i></span><span>Clara</span></button>
+            <button type="button" class="theme-card" data-theme="color"><span class="theme-swatch swatch-color"><i></i><i></i></span><span>De color</span></button>
+          </div>
+          <label class="field-label" for="accentInput">Color de acento <span id="accentValue">#A78BFA</span></label>
+          <div class="color-picker"><input id="accentInput" type="color" value="#a78bfa" aria-label="Elige el color de acento"><span>Personaliza los detalles de tu tarjeta</span></div>
+        </section>
+      </form>
+    </section>
+
+    <aside class="preview-panel" aria-label="Vista previa y descarga">
+      <div class="preview-top"><div><span class="preview-kicker">VISTA PREVIA</span><h2>Así se verá tu tarjeta</h2></div><span class="live-dot">EN VIVO</span></div>
+      <div class="canvas-frame" id="canvasFrame"><canvas id="cardCanvas" aria-label="Vista previa de tu tarjeta"></canvas><div class="empty-preview" id="emptyPreview"><span class="empty-spark">✳</span><b>Tu tarjeta empieza aquí</b><span>Sube una imagen para ver la vista previa</span></div></div>
+      <div class="preview-foot"><span><span class="dot"></span> Se actualiza mientras editas</span><span id="dimensionsLabel">1920 × 1080</span></div>
+      <button id="copyPrompt" class="copy-button" type="button"><span>▢</span> Copiar prompt</button>
+      <p id="copyStatus" class="copy-status" aria-live="polite"></p>
+      <div class="download-heading"><div><h3>Descarga tu tarjeta</h3><p>Elige el formato ideal para compartir.</p></div><span class="png-tag">PNG</span></div>
+      <div class="format-grid">
+        <button type="button" class="format-button selected" data-format="landscape"><span class="format-icon landscape-icon"></span><span><b>Horizontal</b><small>16:9 · 1920 × 1080</small></span><span class="format-check">✓</span></button>
+        <button type="button" class="format-button" data-format="portrait"><span class="format-icon portrait-icon"></span><span><b>Vertical</b><small>9:16 · 1080 × 1920</small></span><span class="format-check">✓</span></button>
+        <button type="button" class="format-button" data-format="square"><span class="format-icon square-icon"></span><span><b>Cuadrado</b><small>1:1 · 1080 × 1080</small></span><span class="format-check">✓</span></button>
+        <button type="button" class="format-button" data-format="social"><span class="format-icon social-icon"></span><span><b>Vertical social</b><small>4:5 · 1080 × 1350</small></span><span class="format-check">✓</span></button>
+      </div>
+      <button id="downloadButton" class="download-button" type="button" disabled><span>↓</span> Descargar tarjeta PNG</button>
+      <p class="local-note">✦ &nbsp;Tu imagen y tus datos nunca salen de tu navegador.</p>
+    </aside>
+  </main>
+  <footer>Hecho para compartir lo que imaginas <span>✳</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
